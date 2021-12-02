@@ -11,7 +11,7 @@ class Database{
     public Connection con;
     public Statement statement;
     public Database(Connection con) throws SQLException{
-        statement = con.createStatement();
+        statement = con.prepareStatement(" ", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         this.con = con;
     }
     public List<String> tableNames() throws SQLException{
