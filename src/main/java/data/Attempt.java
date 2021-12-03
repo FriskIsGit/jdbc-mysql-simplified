@@ -5,19 +5,23 @@ import java.util.Scanner;
 
 class Attempt{
     public static void main(String[] args) {
+
         try{
             Connection con = establishConnection("own");
             System.out.println("-Gotten connection-" );
             Database database = new Database(con);
             System.out.println(database.tableNames());
+            database.executeUpdate("UPDATE frisk set id = 5 where age = 13;");
             Scanner scan = new Scanner(System.in);
             String input = null;
             while(input == null || !input.equals("exit")){
                 input = scan.nextLine();
                 try{
-                    database.executeQuery(input).printSet(10);
+                    database.executeQuery(input).printSet(15);
                 }catch (SQLException sqlException){
                     System.err.println("Invalid query");
+                    sqlException.printStackTrace();
+
                 }
             }
 

@@ -3,6 +3,8 @@ package data;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 //simplified Wrapper
 class Result {
@@ -13,6 +15,7 @@ class Result {
         this.set = set;
         this.data = set.getMetaData();
     }
+
     public int columns() throws SQLException{
         return data.getColumnCount();
     }
@@ -34,9 +37,16 @@ class Result {
         for(int i = 1; i<=columns; i++){
             types[i] = data.getColumnType(i);
         }
-
+        StringBuilder colNames = new StringBuilder();
+        for(int i = 1; i<=columns; i++){
+            String columnName = data.getColumnName(i);
+            appendWidth(colNames,baseWidth-columnName.length());
+            colNames.append(columnName);
+        }
+        System.out.println(colNames);
         while(this.next()){
             StringBuilder row = new StringBuilder();
+
             for(int i = 1; i<=columns; i++){
                 switch (types[i]){
                     //varchar(string)
