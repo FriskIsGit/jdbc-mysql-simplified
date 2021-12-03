@@ -1,5 +1,6 @@
 package data;
 import java.sql.*;
+import java.util.Scanner;
 
 
 class Attempt{
@@ -7,26 +8,33 @@ class Attempt{
         try{
             Connection con = establishConnection("own");
             System.out.println("-Gotten connection-" );
-
-            Database database = null;
-            database = new Database(con);
+            Database database = new Database(con);
             System.out.println(database.tableNames());
+            Scanner scan = new Scanner(System.in);
+            String input = null;
+            while(input == null || !input.equals("exit")){
+                input = scan.nextLine();
+                try{
+                    database.executeQuery(input).printSet(10);
+                }catch (SQLException sqlException){
+                    System.err.println("Invalid query");
+                }
+            }
+
             Result typesTable = database.executeQuery("select * from types;");
             System.out.println("Rows: "  + typesTable.rows());
-            System.out.println("Printing set");
             typesTable.printSet(10);
-            System.out.println("---------------------------------------------------------SPLITTING-LINE ---------------------");
-            typesTable.printSet(10);
-            System.out.println("---------------------------------------------------------SPLITTING-LINE ---------------------");
+            splittingLine();
             Result participantsTable = database.executeQuery("select * from participants;");
-            participantsTable.printSet(11);
-            System.out.println("---------------------------------------------------------SPLITTING-LINE ---------------------");
             participantsTable.printSet(11);
 
         }catch (SQLException sqlExc){
             sqlExc.printStackTrace();
         }
 
+    }
+    private static void splittingLine(){
+        System.out.println("------------------------------------------------------------------------------SPLITTING-LINE ---------------------");
     }
     private static Connection establishConnection(final String DATABASE){
         final String URL = "jdbc:mysql://localhost:3306/" + DATABASE;
