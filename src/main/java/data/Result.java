@@ -31,6 +31,7 @@ class Result {
         this.beforeFirst();
         return rows;
     }
+    //TO-DO choose proper width for each column individually
     public void printSet(int baseWidth) throws SQLException{
         int columns = columns();
         int [] types = new int[columns+1];
