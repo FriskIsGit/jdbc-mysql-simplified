@@ -19,7 +19,7 @@ class Database{
         statement = con.prepareStatement(" ", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         this.con = con;
     }
-    public List<String> tableNames() throws SQLException{
+    public List<String> showTables() throws SQLException{
         List<String> tables = new ArrayList<>();
         Result result = executeQuery("SHOW TABLES;");
         while(result.next()){
